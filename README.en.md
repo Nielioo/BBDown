@@ -36,6 +36,49 @@ dotnet tool update --global BBDown
 
 ## Usage
 
+### Everyday use
+
+Most of the time you only need the URL:
+
+```bash
+BBDown "https://www.bilibili.com/video/BVxxxxxx"
+```
+
+BBDown picks the highest quality your account is allowed to access, then downloads and muxes it (ffmpeg/mp4box required for merging).
+
+### Stuck at 480p? Re-login
+
+Bilibili limits **guests / expired sessions to 480p**. If you only see 480p (or the log warns that you are not logged in), refresh your WEB login:
+
+```bash
+BBDown login
+```
+
+1. A QR code appears in the terminal.
+2. Scan it with the Bilibili mobile app.
+3. After success, BBDown saves the session next to the executable (e.g. `BBDown.data` under `~/.dotnet/tools/` if you installed via `dotnet tool`).
+4. Run the same download again:
+
+```bash
+BBDown "https://www.bilibili.com/video/BVxxxxxx"
+```
+
+Optional checks:
+
+```bash
+# Parse only — confirm available qualities before downloading
+BBDown -info "https://www.bilibili.com/video/BVxxxxxx"
+
+# Pick quality/stream interactively
+BBDown -ia "https://www.bilibili.com/video/BVxxxxxx"
+```
+
+Notes:
+
+- A normal (non-VIP) logged-in account is usually enough for **720p / 1080p**. Higher tiers (e.g. 4K / some premium streams) may need a VIP account.
+- Cookies expire; re-run `BBDown login` when quality drops back to 480p.
+- For TV API auth, use `BBDown logintv` instead (see Tutorial below).
+
 ```text
 Description:
   BBDown is a free and efficient Bilibili download/parser tool.
